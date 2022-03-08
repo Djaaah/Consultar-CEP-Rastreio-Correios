@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
+from sistemas.validacoes import Validar as v
 from sistemas.telas import Telas as t
-from sistemas.funcoes import Funcoes as f
 
 
 tela1 = t.tela1()
@@ -12,11 +12,10 @@ while True:
         break
     
     if evento == '-CEP-':
-        f.mostrar_cep(janela)
+        t.mostrar_cep(janela)
         
     if evento == '-RASTREIO-':
-        f.mostrar_rastreio(janela)
+        t.mostrar_rastreio(janela)
     
     if evento == '-PESQUISAR-':
-        f.dados_cep(valor)
-        f.exibir_dados_cep(valor, janela)
+        v.validar_input_cep(valor, janela)

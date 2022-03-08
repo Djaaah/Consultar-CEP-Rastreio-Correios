@@ -69,4 +69,10 @@ class Telas:
         ]
         return layout_main
     
-    
+    def mostrar_cep(janela):
+        janela['-CONSULTAR_CEP-'].update(visible=True)
+        janela['-CONSULTAR_RASTREIO-'].update(visible=False)
+        
+    def mostrar_rastreio(janela):
+        janela['-CONSULTAR_CEP-'].update(visible=False)
+        janela['-CONSULTAR_RASTREIO-'].update(visible=True)
