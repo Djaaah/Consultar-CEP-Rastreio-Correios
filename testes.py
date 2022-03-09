@@ -1,55 +1,59 @@
 import requests as r
-
-def validar_dados_cep(CEP):
-        
-        apoio = r.get(f'http://viacep.com.br/ws/{CEP}/json/')
-        
-        dados = apoio.json()
-        if 'erro' in dados.keys():
-            print('Não foram encontrados dados desse cep, informe um CEP válido!')
-        else:
-            logradouro = dados['logradouro']
-            complemento = dados['complemento']
-            bairro = dados['bairro']
-            cidade = dados['localidade']
-            uf = dados['uf']
-            cod_ibge = dados['ibge']
-            return [logradouro, complemento, bairro, cidade, uf, cod_ibge]
+import pandas as pd
+import jinja2
 
 
-print(validar_dados_cep('53370525'))
 
-
-# cod = 'QI203645677BR'
-
-# dados = r.get(f'https://proxyapp.correios.com.br/v1/sro-rastro/{cod}').json()
-
-# qtd_registros = len(dados['objetos'][0]['eventos'])
 
 
 # for i in dados['objetos'][0]:
 #     print(i)
 
-# registros = []
-# apoio = []
 
-# print(qtd_registros)
-# for i in range(qtd_registros):
-#     try:
-#         apoio.append(dados['objetos'][0]['eventos'][i]['dtHrCriado'])
-#         apoio.append(dados['objetos'][0]['eventos'][i]['descricao'])
-#         apoio.append(dados['objetos'][0]['eventos'][i]['unidade']['endereco']['cidade'])
-#         apoio.append(dados['objetos'][0]['eventos'][i]['unidade']['endereco']['uf'])
-#         apoio.append(dados['objetos'][0]['eventos'][i]['unidade']['tipo'])
-#         apoio.append(dados['quantidade'])
-#         apoio.append(dados['objetos'][0]['tipoPostal']['categoria'])
-#         apoio.append(dados['objetos'][0]['tipoPostal']['descricao'])
+
+# print(dados)
+
+
+cod = 'QI203645677BR'
+
+dados = r.get(f'https://proxyapp.correios.com.br/v1/sro-rastro/{cod}').json()
+qtd_registros = len(dados['objetos'][0]['eventos'])
+
+registros = []
+apoio = []
+
+
+for i in range(qtd_registros):
+    try:
+        apoio.append(dados['objetos'][0]['eventos'][i]['dtHrCriado'])
+        apoio.append(dados['objetos'][0]['eventos'][i]['descricao'])
+        apoio.append(dados['objetos'][0]['eventos'][i]['unidade']['endereco']['cidade'])
+        apoio.append(dados['objetos'][0]['eventos'][i]['unidade']['endereco']['uf'])
+        apoio.append(dados['objetos'][0]['eventos'][i]['unidade']['tipo'])
+        apoio.append(dados['quantidade'])
+        apoio.append(dados['objetos'][0]['tipoPostal']['categoria'])
+        apoio.append(dados['objetos'][0]['tipoPostal']['descricao'])
         
-#     except:
-#         pass
-#     finally:
-#         registros.append(apoio[:])
-#         apoio.clear()
+    except:
+        pass
+    finally:
+        registros.append(apoio[:])
+        apoio.clear()
+        
+        
+dados_finais = pd.DataFrame(registros, columns = ["Data do Evento", "Evento", "Local", "Estado", "Unidade", "Qtd. Pacotes", "Tipo de Envio", "Etiqueta"])
+pd.options.display.colheader_justify = 'center'
+print(dados_finais)
+
+
+
+
+# dados_finais.head().style.set_table_styles([dict(selector='th', props=[('text-align', 'left')]),
+#                                     dict(selector='td', props=[('text-align', 'left')])])
+
+
+
+
 
 # for i in registros:
 #     print(i)

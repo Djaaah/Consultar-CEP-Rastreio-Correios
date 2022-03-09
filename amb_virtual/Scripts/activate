@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\jailt\OneDrive\Área de Trabalho\Códigos(Programação)\Consultar CEP & RASTREIO\amb_virtual"
+VIRTUAL_ENV="C:\Users\jailt\OneDrive\Área de Trabalho\Programação\Python\Consultar CEP & RASTREIO\amb_virtual"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
