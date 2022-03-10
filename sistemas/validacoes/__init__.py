@@ -31,4 +31,16 @@ class Validar:
             return [logradouro, complemento, bairro, cidade, uf, cod_ibge]
         
         
+    def validar_input_rastreio(valor, janela):
+        validar = len(str(valor['-RASTREIO_DESEJADO-'])) == 13
+        if validar:
+            p1_correto = str(valor['-RASTREIO_DESEJADO'][:2]).isalpha()
+            p2_correto = str(valor['-RASTREIO_DESEJADO'][11::]).isalpha()
+            p3_correto = str(valor['-RASTREIO_DESEJADO'][2:11]).isdigit()
+        else:
+            sg.popup('Formato inválido detectado, preencha o campo de rastreio corretamente\nDica:XX000000000XX')
+        if valor['-RASTREIO_DESEJADO-'].strip() != '' and p1_correto and p2_correto and p3_correto:
+            pass
+            # falta pouco pra terminar a parte de rastreio, testei o ngc e imprimiu certo
+        
             

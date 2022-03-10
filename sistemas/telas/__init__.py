@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 import sistemas.icones as i 
-
+from sistemas.funcoes import Funcoes as f
 
 font = ('Futura, 15')
 
@@ -28,7 +28,7 @@ class Telas:
     def layout_cep(): 
         layout = [
             [sg.Text('CEP'), sg.Input(key='-CEP_DESEJADO-', size=(30,0), border_width=0),
-             sg.Button(image_data=i.btn_pesquisar, border_width=0, tooltip='Pesquisar CEP', button_color=(sg.theme_background_color(), sg.theme_background_color()), key='-PESQUISAR-')],
+             sg.Button(image_data=i.btn_pesquisar, border_width=0, tooltip='Pesquisar CEP', button_color=(sg.theme_background_color(), sg.theme_background_color()), key='-PESQUISAR_CEP-')],
             
         ]
         
@@ -45,11 +45,14 @@ class Telas:
     
     def layout_rastreio():
         layout = [
-            
+            [sg.Text('Cod. Rastreio'), sg.Input(key='-RASTREIO_DESEJADO-', size=(30,0), border_width=0),
+             sg.Button(image_data=i.btn_pesquisar, border_width=0, tooltip='Rastrear', button_color=(sg.theme_background_color(), sg.theme_background_color()), key='-PESQUISAR_RASTREIO-')]
         ]
-        
+        dados = []
+        header= ["Data do Evento", "Evento", "Local", "Estado", "Unidade", "PCTS", "Tipo de Envio", "Etiqueta"]
         layout_rastreio = [
-             [sg.Column(layout, justification='center')]
+             [sg.Column(layout, justification='center')],
+             [sg.Multiline(key='-DADOS_RASTREIO-', disabled=True, size=(80,20) ,auto_refresh=True, reroute_stdout=True)],
         ]
         return layout_rastreio
     

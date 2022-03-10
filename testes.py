@@ -1,10 +1,6 @@
 import requests as r
 import pandas as pd
-import jinja2
-
-
-
-
+from prettytable import PrettyTable as pt
 
 # for i in dados['objetos'][0]:
 #     print(i)
@@ -17,35 +13,39 @@ import jinja2
 cod = 'QI203645677BR'
 
 dados = r.get(f'https://proxyapp.correios.com.br/v1/sro-rastro/{cod}').json()
+
 qtd_registros = len(dados['objetos'][0]['eventos'])
 
 registros = []
 apoio = []
-
+apoio2 = []
 
 for i in range(qtd_registros):
     try:
-        apoio.append(dados['objetos'][0]['eventos'][i]['dtHrCriado'])
+        apoio2 = dados['objetos'][0]['eventos'][i]['dtHrCriado'].split('T')
+        apoio2 = ' '.join(apoio2)
+        apoio.append(apoio2)
         apoio.append(dados['objetos'][0]['eventos'][i]['descricao'])
         apoio.append(dados['objetos'][0]['eventos'][i]['unidade']['endereco']['cidade'])
         apoio.append(dados['objetos'][0]['eventos'][i]['unidade']['endereco']['uf'])
         apoio.append(dados['objetos'][0]['eventos'][i]['unidade']['tipo'])
         apoio.append(dados['quantidade'])
         apoio.append(dados['objetos'][0]['tipoPostal']['categoria'])
-        apoio.append(dados['objetos'][0]['tipoPostal']['descricao'])
+        
         
     except:
         pass
     finally:
         registros.append(apoio[:])
         apoio.clear()
-        
-        
-dados_finais = pd.DataFrame(registros, columns = ["Data do Evento", "Evento", "Local", "Estado", "Unidade", "Qtd. Pacotes", "Tipo de Envio", "Etiqueta"])
-pd.options.display.colheader_justify = 'center'
+
+
+dados_finais = pt(["Data do Evento", "Evento", "Local", "Estado", "Unidade", "Pacotes", "Tipo de Envio"])
+
+for i in range(qtd_registros):
+    dados_finais.add_row(registros[i])
+
 print(dados_finais)
-
-
 
 
 # dados_finais.head().style.set_table_styles([dict(selector='th', props=[('text-align', 'left')]),
